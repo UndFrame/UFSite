@@ -1,4 +1,4 @@
-package ru.undframe;
+package ru.undframe.controllers;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,8 @@ public class ErrorControllerManager implements ErrorController {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
-            System.out.println(statusCode);
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "redirect:/index.html";
+                return "redirect:/";
             }
             else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error-500";

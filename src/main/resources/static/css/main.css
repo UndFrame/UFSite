@@ -1,0 +1,37 @@
+.card {
+    position: absolute;
+    margin: 0 auto;
+    align-content: center;
+    top: 10%;
+    left: 40%;
+    width: auto;
+    height: auto;
+}
+
+.card-title {
+    margin: 0 auto;
+    font-size: 80%;
+}
+
+.card-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.submit {
+    margin-top: 8%;
+}
+
+.result-error {
+    color: red;
+    max-width: 60%;
+    font-size: 80%;
+    position: absolute;
+    margin-top: 1%;
+    margin-left: 4%;
+}
+
+.successfully {
+
+}
