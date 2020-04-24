@@ -16,10 +16,11 @@ public class ErrorControllerManager implements ErrorController {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
-            if(statusCode == HttpStatus.NOT_FOUND.value()) {
+            System.out.println(statusCode);
+            if(statusCode == HttpStatus.NOT_FOUND.value()
+            || statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "redirect:/";
-            }
-            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+            }else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error-500";
             }
         }

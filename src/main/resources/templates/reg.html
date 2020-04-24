@@ -18,20 +18,22 @@
 
     <div class="card">
         <div class="card-header">
-            Авторизация
+            Регистрация
         </div>
         <div class="card-body">
-            <form th:action="@{/login}" method="post">
-                <input type="hidden" name="_csrf" value="39d1c8f9-23ea-4869-a808-6da6ad50295d"/>
-
+            <form th:action="@{/reg}" method="post" modelAttribute="userForm">
                 <div class="card-title"> Логин</div>
                 <div>
-                    <label><input type="text" name="username" class="card-text"/></label>
+                    <label><input type="text" name="username"class="card-text"/></label>
                 </div>
 
                 <div class="card-title"> Пароль</div>
                 <div>
                     <label><input type="password" name="password" class="card-text"/></label>
+                </div>
+                <div class="card-title">Повторите пароль</div>
+                <div>
+                    <label><input type="password" name="confirmPassword" class="card-text"/></label>
                 </div>
 
                 <div>
