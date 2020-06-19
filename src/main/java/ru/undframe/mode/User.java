@@ -1,10 +1,9 @@
 package ru.undframe.mode;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -18,11 +17,25 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "email")
+    private String email;
+
+
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String confirmPassword;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "ban")
+    private boolean ban;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "token", referencedColumnName = "id")
+    private Token token;
+
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role" ,
@@ -30,6 +43,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
 
     public Long getId() {
         return id;
@@ -55,14 +76,6 @@ public class User {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -71,13 +84,39 @@ public class User {
         this.roles = roles;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isBan() {
+        return ban;
+    }
+
+    public void setBan(boolean ban) {
+        this.ban = ban;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
+                ", enabled=" + enabled +
+                ", ban=" + ban +
                 ", roles=" + roles +
                 '}';
     }

@@ -1,12 +1,12 @@
-.header-box {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+body{
+    margin: 0;
+
+}
+header {
     height: 44px;
+    padding: 1px 1px;
     background-color: #606060;
 }
-
 
 .header-home-item {
     margin-top: 8px;

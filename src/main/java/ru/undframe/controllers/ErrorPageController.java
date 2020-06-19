@@ -9,14 +9,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ErrorControllerManager implements ErrorController {
+public class ErrorPageController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
-            System.out.println(statusCode);
             if(statusCode == HttpStatus.NOT_FOUND.value()
             || statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "redirect:/";

@@ -1,7 +1,6 @@
 package ru.undframe.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,14 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.undframe.mode.User;
-import ru.undframe.services.SecurityService;
 
 import javax.validation.Valid;
 
 @Controller
 public class WebController implements WebMvcConfigurer {
-
-
 
 
     @Override
@@ -29,21 +25,22 @@ public class WebController implements WebMvcConfigurer {
 
     @GetMapping("/index")
     public String index(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-        model.addAttribute("user", authentication.getPrincipal());
-        return "form";
+        return "redirect:/";
     }
-
 
     @GetMapping("/")
     public String main(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User user =authentication.getPrincipal() instanceof User ?  (User)authentication.getPrincipal() : null;
+        model.addAttribute("auth", user !=null);
+        model.addAttribute("user", user);
         return "index";
     }
 
 
     @GetMapping("/form")
-    public String showForm(User personForm) {
+    public String showForm() {
         return "form";
     }
 
@@ -54,4 +51,16 @@ public class WebController implements WebMvcConfigurer {
         }
         return "results";
     }
+
+    @GetMapping("/account")
+    public String account(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User user =authentication.getPrincipal() instanceof User ?  (User)authentication.getPrincipal() : null;
+        model.addAttribute("auth", user !=null);
+        model.addAttribute("user", user);
+        return "user";
+    }
+
+
 }

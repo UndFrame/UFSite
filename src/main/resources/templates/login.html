@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/header.css" type="text/css"/>
 </head>
-<body>
-<header class="header-box">
+<body >
+<header class="header-box" id="header">
     <div class="header-home-item">
         <a title="home" href="../"><img src="images/home.png" alt="" class="home-img"></a>
     </div>
@@ -17,16 +17,21 @@
 
 
     <div class="card">
+
+        <div th:if="${activateToken}" class="alert alert-primary" role="alert">
+            Вы успешно подтвердили почту.
+        </div>
+        <div th:if="${captchaError}" class="alert alert-primary" role="alert">
+            Подтвердите, что вы не бот
+        </div>
         <div class="card-header">
             Авторизация
         </div>
-        <div class="card-body">
+        <div class="card-body back-ground">
             <form th:action="@{/login}" method="post">
-                <input type="hidden" name="_csrf" value="39d1c8f9-23ea-4869-a808-6da6ad50295d"/>
-
-                <div class="card-title"> Логин</div>
+                <div class="card-title"> Логин или Email</div>
                 <div>
-                    <label><input type="text" name="username" class="card-text"/></label>
+                    <label><input type="text" name="userId" class="card-text"/></label>
                 </div>
 
                 <div class="card-title"> Пароль</div>
@@ -38,7 +43,9 @@
                     <label><input type="submit" value="Войти" class="btn btn-primary submit"/></label> <label
                         th:if="${param.error}" class="result-error">Неверный
                     логин или пароль</label>
+                    <div><a href="/reg" id="subCommand">Регистрация</a></div>
                 </div>
+                <input type="hidden" name="recaptchaResponse" id="recaptchaResponse">
             </form>
         </div>
     </div>
@@ -56,5 +63,17 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
+<script th:src="'https://www.google.com/recaptcha/api.js?render='+${RECAPTCHA_SITE_KEY}"></script>
+<script>
+    grecaptcha.ready(function() {
+        var captchaServerKey = '6LcWHu4UAAAAADzaWj_brYJvrvSbLfy-NIkDPGKV';
+        grecaptcha.execute(captchaServerKey, {action: 'login'}).then(function(token) {
+            var recaptchaResponse = document.getElementById('recaptchaResponse');
+            recaptchaResponse.value = token;
+        });
+    });
+</script>
+
 </body>
 </html>
