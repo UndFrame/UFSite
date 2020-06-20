@@ -24,6 +24,9 @@
         <div th:if="${captchaError}" class="alert alert-primary" role="alert">
             Подтвердите, что вы не бот
         </div>
+        <div th:if="${banError}" class="alert alert-primary" role="alert">
+            Ваш аккаунт в бане.
+        </div>
         <div class="card-header">
             Авторизация
         </div>

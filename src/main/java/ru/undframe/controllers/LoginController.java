@@ -18,13 +18,18 @@ public class LoginController {
     public ModelAndView login(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "captcha", required = false) String captcha,
-            @RequestParam(value = "logout", required = false) String logout
+            @RequestParam(value = "logout", required = false) String logout,
+            @RequestParam(value = "ban", required = false) String ban
     ) {
         boolean captchaError = captcha != null;
+        boolean banError = ban != null;
         ModelAndView model = new ModelAndView();
         model.addObject("RECAPTCHA_SITE_KEY", captchaSiteKey);
         if (captchaError) {
             model.addObject("captchaError", true);
+        }
+        if (banError) {
+            model.addObject("banError", true);
         }
         if (error != null) {
             model.addObject("error", "Invalid username or password.");

@@ -1,6 +1,7 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="ru">
 <head>
+    <link rel="stylesheet" type="text/css" href="../static/css/userstyle.css"/>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -40,8 +41,14 @@
         </div>
     </div>
 </header>
-<div>Test Section</div>
-Account page
+<div>
+    Роли:
+    <ul>
+        <th:block th:each="role : ${roles}" class="roles">
+            <li th:utext="${role.getName()}">..</li>
+        </th:block>
+    </ul>
+</div>
 
 </body>
 </html>

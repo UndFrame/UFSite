@@ -2,6 +2,7 @@ package ru.undframe.controllers;
 
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,13 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.undframe.mode.Role;
 import ru.undframe.mode.User;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 @Controller
 public class WebController implements WebMvcConfigurer {
-
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -59,6 +61,7 @@ public class WebController implements WebMvcConfigurer {
         User user =authentication.getPrincipal() instanceof User ?  (User)authentication.getPrincipal() : null;
         model.addAttribute("auth", user !=null);
         model.addAttribute("user", user);
+        model.addAttribute("roles", user != null ? user.getRoles().toArray(new Role[]{}) : Collections.emptyList());
         return "user";
     }
 

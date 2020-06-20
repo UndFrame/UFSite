@@ -18,11 +18,14 @@ import org.springframework.web.client.RestTemplate;
 import ru.undframe.authentication.CustomWebAuthenticationDetails;
 import ru.undframe.captcha.CaptchaError;
 import ru.undframe.captcha.ReCaptchaResponse;
+import ru.undframe.errors.UserIsBanned;
 import ru.undframe.mode.Role;
 import ru.undframe.mode.User;
 import ru.undframe.services.UserService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -63,14 +66,15 @@ public class AuthProviderImpl implements AuthenticationProvider {
             throw new LockedException("user not activate");
         }
         if(user.isBan()){
-            throw new LockedException("user not activate");
+            throw new UserIsBanned("user is banned");
         }
         if(!passwordEncoder.matches(authentication.getCredentials().toString(),user.getPassword())){
             throw new BadCredentialsException("password not equals");
         }
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_BEGINNER"));
         for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
         }
         return new UsernamePasswordAuthenticationToken(user,null,grantedAuthorities);
     }
